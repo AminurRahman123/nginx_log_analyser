@@ -24,6 +24,14 @@ if [ -f "$log" ];then
         echo "Top 5 Response status codes: "
         responses=$(cat $log | awk '{print $9}' | uniq -c |sort -nr|  head -5)
         echo "$responses" | awk '{print $2 " - " $1 " requests"}'
+        echo ""
+
+        echo "Top 5 User Agents:"
+        agents=$(cat "$log" | grep -o '".*"$' | sort | uniq -c | sort -nr | head -5)
+        echo "$agents" | while read -r count agent; do
+        echo "$agent - $count requests"
+        done
+
 else
         echo "File not available or cannot be accessed"
 fi
